@@ -1,0 +1,341 @@
+* {
+	box-sizing: border-box;
+}
+
+.cpb-lock {
+	overflow: hidden;
+	filter: blur(8px);
+	pointer-events: none;
+}
+
+.cpb-section-header {
+	background-color: #333333;
+	padding: 8px;
+	color: #eee;
+	font-size: 12pt;
+	font-weight: 600;
+}
+
+.cpb-section {
+	background-color: #fff;
+	border: 1px solid #E5E5E5;
+	padding: 15px 5px 5px;
+	margin-bottom: 15px;
+}
+
+.cpb-input-group {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.cpb-label,
+.cpb-input {
+	display: inline-block;
+}
+
+.cpb-label {
+	width: 15%;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.cpb-input-group select {
+	max-width: initial;
+}
+
+.cpb-input {
+	width: 40%;
+}
+
+.cpb-description {
+	margin-left: 15px;
+}
+
+.cpb-td {
+	width: 70%;
+}
+
+.cpb-button-primary {
+	font-size: 17px;
+	line-height: 28px;
+	height: 32px;
+}
+
+.cpb-button-image {
+	display: inline-block;
+	width: 160px;
+	height: 40px;
+	border: 2px solid #000;
+	border-radius: 10px;
+	cursor: pointer;
+	padding: 4px 8px;
+}
+
+.cpb-button-image:hover,
+.cpb-popup-submit:hover {
+	-webkit-box-shadow: 0 0 3px #336aff;
+	box-shadow: 0 0 3px #336aff;
+}
+
+/* Message bar with payment result */
+.cpb-result-success,
+.cpb-result-fail,
+.cpb-result-cancel {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 16px;
+	font-weight: 600;
+	color: #fff;
+	padding: 10px;
+}
+
+.cpb-result-success {
+	background: #02ab6c;
+}
+
+.cpb-result-fail {
+	background: red;
+}
+
+.cpb-result-cancel {
+	background: orange;
+}
+
+/* Checkbox Toggle UI */
+input[type="checkbox"].cpb-ui-toggle {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+
+	-webkit-tap-highlight-color: transparent;
+
+	width: auto;
+	height: auto;
+	vertical-align: middle;
+	position: relative;
+	border: 0;
+	outline: 0;
+	cursor: pointer;
+	margin: 0 4px;
+	background: none;
+	box-shadow: none;
+}
+input[type="checkbox"].cpb-ui-toggle:focus {
+	box-shadow: none;
+}
+input[type="checkbox"].cpb-ui-toggle:after {
+	content: '';
+	font-size: 8px;
+	font-weight: 400;
+	line-height: 18px;
+	text-indent: -14px;
+	color: #ffffff;
+	width: 36px;
+	height: 18px;
+	display: inline-block;
+	background-color: #a7aaad;
+	border-radius: 72px;
+	box-shadow: 0 0 12px rgb(0 0 0 / 15%) inset;
+}
+input[type="checkbox"].cpb-ui-toggle:before {
+	content: '';
+	width: 14px;
+	height: 14px;
+	display: block;
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	margin: 0;
+	border-radius: 50%;
+	background-color: #ffffff;
+}
+input[type="checkbox"].cpb-ui-toggle:checked:before {
+	left: 20px;
+	margin: 0;
+	background-color: #ffffff;
+}
+input[type="checkbox"].cpb-ui-toggle,
+input[type="checkbox"].cpb-ui-toggle:before,
+input[type="checkbox"].cpb-ui-toggle:after,
+input[type="checkbox"].cpb-ui-toggle:checked:before,
+input[type="checkbox"].cpb-ui-toggle:checked:after {
+	transition: ease .15s;
+}
+input[type="checkbox"].cpb-ui-toggle:checked:after {
+	content: 'ON';
+	background-color: #2271b1;
+}
+
+/* Popup checkout form */
+.cpb-popup {
+	position:fixed;
+	width:100%;
+	height:100%;
+	background-color: rgba( 0, 0 , 0, 0.8);
+	top: 0;
+	left: 0;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.8s ease 0s;
+}
+
+.cpb-popup.open {
+	opacity: 1;
+	visibility: visible;
+}
+
+.cpb-popup-body {
+	min-height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 1em 0.6em;
+}
+
+.cpb-popup.open .cpb-popup-content {
+	transform: perspective(600px) translate(0 , 0) rotateX(0);
+	opacity: 1;
+}
+
+.cpb-popup-content {
+	position: relative;
+	background-color: #fff;
+	color: #000;
+	width: 100%;
+	padding: 0.4em 0.6em;
+	transition: all 0.6s ease 0s;
+	opacity: 0;
+	transform: perspective(600px) translate(0 , -100%) rotateX(45deg);
+}
+
+.cpb-popup-title {
+	font-size: 2em;
+	margin: 0 0 0.8em 0;
+}
+
+.cpb-popup-close {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	font-size: 30px;
+	width: 20px;
+	height: 20px;
+	color: #000;
+	text-decoration: none;
+}
+
+.cpb-popup-input-group {
+	margin-bottom: 1em;
+	width: 100%;
+}
+
+.cpb-popup-label {
+	font-size: 0.8em;
+	font-weight: 600;
+	margin-left: 5px;
+}
+
+.cpb-popup-input {
+	width: 100%;
+	font-size: 1em;
+	padding: 0.4em;
+}
+
+.cpb-popup-description {
+	margin-left: 5px;
+	font-size: 0.8em;
+	color: rgba(0, 0, 0, 0.8);
+}
+
+.cpb-popup-footer {
+	display: flex;
+	justify-content: center;
+	padding-top: 0.6em;
+	margin-bottom: 0.8em;
+}
+
+#cpb_popup_submit {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.5em;
+	width: 60%;
+	border-radius: 5px;
+}
+
+.cpb-popup-submit img {
+	width: 30px;
+}
+
+.cpb-popup-submit span {
+	margin-left: 10px;
+	font-size: 1.5em;
+}
+
+/* Gutenberg editor styles */
+.js-cpb-wrapper {
+	border: solid 1px;
+}
+
+.js-cpb-input {
+	width: 45%;
+	border: solid 1px;
+	padding: 4px;
+	margin: 5px 0 10px 0;
+}
+
+.js-cpb-container {
+	display: flex;
+	justify-content: space-around;
+}
+
+.js-cpb-label {
+	font-size: 13px;
+	font-weight: 600;
+	line-height: normal;
+	width: 100%;
+	margin: 5px auto 0 8px;
+}
+
+[class^="js-cpb-error-"] {
+	color: red;
+	font-size: 0.8em;
+	margin-left: 10px;
+	text-align: center;
+}
+
+.cpb-not-valid {
+	box-shadow: 0 0 8px red;
+	border: 2px red;
+}
+
+/* Other screen sizes */
+@media only screen and (min-width: 768px) {
+	.cpb-popup-content {
+		padding: 15px 20px;
+	}
+
+	#cpb_popup_submit {
+		width: 40%;
+	}
+
+	.cpb-popup-content {
+		width: 480px;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+
+	.cpb-popup-title {
+		font-size: 1.2em;
+	}
+
+	.cpb-popup-input-group {
+		margin-bottom: 0.2em;
+	}
+}

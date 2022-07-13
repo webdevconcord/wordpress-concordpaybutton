@@ -1,0 +1,274 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2022-02-14 16:39+0200\n"
+"PO-Revision-Date: 2022-06-24 12:54+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-KeywordsList: __;esc_attr__;_e;esc_html__;esc_html_e\n"
+"X-Poedit-SearchPath-0: concordpay-button.php\n"
+"X-Poedit-SearchPath-1: assets/js/blocks/cpb.block.js\n"
+
+#: assets/js/blocks/cpb.block.js:12 concordpay-button.php:23
+#: concordpay-button.php:248
+msgid "ConcordPay Button"
+msgstr "ConcordPay Button"
+
+#: assets/js/blocks/cpb.block.js:20
+msgid "Example name"
+msgstr "Пример названия"
+
+#: assets/js/blocks/cpb.block.js:53
+msgid "Please specify Product name and Price"
+msgstr "Пожалуйста, укажите Название товара и Цену"
+
+#: concordpay-button.php:24
+msgid ""
+"This plugin allows you to create a button that lets the customers pay via "
+"ConcordPay."
+msgstr ""
+"Этот плагин позволяет вам создать кнопку, дающую возможность клиентам "
+"оплачивать заказы через ConcordPay."
+
+#: concordpay-button.php:268
+msgid "Settings"
+msgstr "Настройки"
+
+#: concordpay-button.php:286
+msgid "Support"
+msgstr "Поддержка"
+
+#: concordpay-button.php:298
+msgid "You do not have sufficient permissions to access this page."
+msgstr "У вас недостаточно прав для доступа к этой странице."
+
+#: concordpay-button.php:304
+msgid "ConcordPay Button Settings"
+msgstr "Настройки кнопки ConcordPay"
+
+#: concordpay-button.php:321
+msgid "Settings updated"
+msgstr "Настройки обновлены"
+
+#: concordpay-button.php:333
+msgid "Usage"
+msgstr "Использование"
+
+#: concordpay-button.php:336
+msgid ""
+"By using this you can create shortcodes which will show up as \"ConcordPay "
+"Button\" on your site."
+msgstr ""
+"Используя её, вы можете создавать шорткоды, которые будут отображаться на "
+"вашем сайте как «Кнопка ConcordPay»."
+
+#: concordpay-button.php:341
+msgid ""
+"You can put the \"ConcordPay Button\" as many times in a page or post as you "
+"want, there is no limit. If you want to remove a \"ConcordPay Button\", just "
+"remove the shortcode text in your page or post."
+msgstr ""
+"Вы можете размещать «Кнопку ConcordPay» столько раз на странице или в "
+"записи, сколько хотите, ограничений нет. Если вы хотите удалить «Кнопку "
+"ConcordPay», просто удалите текст шорткода на своей странице или в записи."
+
+#: concordpay-button.php:348
+msgid "Account settings"
+msgstr "Настройки аккаунта"
+
+#: concordpay-button.php:351
+msgid "Merchant ID"
+msgstr "Идентификатор торговца"
+
+#: concordpay-button.php:355 concordpay-button.php:363
+msgid "Given to Merchant by ConcordPay"
+msgstr "Предоставляется торговцу системой ConcordPay"
+
+#: concordpay-button.php:359
+msgid "Secret key"
+msgstr "Секретный ключ"
+
+#: concordpay-button.php:367
+msgid "Currency"
+msgstr "Валюта"
+
+#: concordpay-button.php:372
+msgid "Specify your currency"
+msgstr "Укажите свою валюту"
+
+#: concordpay-button.php:376
+msgid "Language"
+msgstr "Язык"
+
+#: concordpay-button.php:381
+msgid "Specify ConcordPay payment page language"
+msgstr "Укажите язык страницы оплаты ConcordPay"
+
+#: concordpay-button.php:385
+msgid "Required fields"
+msgstr "Обязательные поля"
+
+#: concordpay-button.php:390
+msgid "Fields required to be entered by the buyer"
+msgstr "Поля, которые должен заполнять покупатель"
+
+#: concordpay-button.php:394
+msgid "Order prefix"
+msgstr "Префикс заказа"
+
+#: concordpay-button.php:398
+msgid "Prefix for order"
+msgstr "Префикс для обозначения заказа"
+
+#: concordpay-button.php:402
+msgid "Save Changes"
+msgstr "Сохранить изменения"
+
+#: concordpay-button.php:427
+msgid "Buyer info"
+msgstr "Данные покупателя"
+
+#: concordpay-button.php:431
+msgid "Name"
+msgstr "Имя"
+
+#: concordpay-button.php:434
+msgid "Enter your name"
+msgstr "Введите ваше имя"
+
+#: concordpay-button.php:441
+msgid "Phone"
+msgstr "Телефон"
+
+#: concordpay-button.php:444
+msgid "Your contact phone"
+msgstr "Ваш контактный телефон"
+
+#: concordpay-button.php:451
+msgid "Email"
+msgstr "Email"
+
+#: concordpay-button.php:454
+msgid "Your email"
+msgstr "Ваша эл. почта"
+
+#: concordpay-button.php:466
+msgid "Pay Order"
+msgstr "Оплатить"
+
+#: concordpay-button.php:484
+msgid "Nonce verification failed"
+msgstr "Ошибка проверки одноразового кода"
+
+#: concordpay-button.php:554
+msgid "Please enter your ConcordPay Merchant ID on the settings page."
+msgstr "Пожалуйста, укажите свой Идентификатор торговца на странице настроек."
+
+#: concordpay-button.php:583
+msgid "Payment by card on the site"
+msgstr "Оплата картой на сайте"
+
+#: concordpay-button.php:614
+msgid "Pay"
+msgstr "Оплата"
+
+#: concordpay-button.php:706
+msgid "Congratulations! Your payment has been approved"
+msgstr "Поздравляем! Ваш платёж успешен"
+
+#: concordpay-button.php:709
+msgid "Sorry, payment failed"
+msgstr "Извините, платеж не прошел"
+
+#: concordpay-button.php:712
+msgid "Payment canceled"
+msgstr "Платёж отменён"
+
+#: concordpay-button.php:762
+msgid "Ukrainian hryvnia"
+msgstr "Украинская гривна"
+
+#: concordpay-button.php:763
+msgid "U.S. Dollar"
+msgstr "Доллар США"
+
+#: concordpay-button.php:764
+msgid "Euro"
+msgstr "Евро"
+
+#: concordpay-button.php:775
+msgid "UA"
+msgstr "UA"
+
+#: concordpay-button.php:776
+msgid "RU"
+msgstr "RU"
+
+#: concordpay-button.php:777
+msgid "EN"
+msgstr "EN"
+
+#: concordpay-button.php:788
+msgid "Do not require"
+msgstr "Не требовать"
+
+#: concordpay-button.php:789
+msgid "Name + Phone"
+msgstr "Имя + Телефон"
+
+#: concordpay-button.php:790
+msgid "Name + Email"
+msgstr "Имя + Email"
+
+#: concordpay-button.php:791
+msgid "Name + Phone + Email"
+msgstr "Имя + Телефон + Email"
+
+#: concordpay-button.php:838
+msgid "Error: Not enough input parameters."
+msgstr "Ошибка: Мало входных данных."
+
+#: concordpay-button.php:844
+msgid "Error: Request failed security check"
+msgstr "Ошибка: Запрос не прошёл проверку безопасности"
+
+#: concordpay-button.php:849
+msgid "Invalid name"
+msgstr "Неправильное имя"
+
+#: concordpay-button.php:856
+msgid "Invalid phone number"
+msgstr "Неправильный телефон"
+
+#: concordpay-button.php:864
+msgid "Invalid email"
+msgstr "Неправильная эл. почта"
+
+#~ msgid "Left"
+#~ msgstr "Слева"
+
+#~ msgid "Center"
+#~ msgstr "Центр"
+
+#~ msgid "Right"
+#~ msgstr "Справа"
+
+#~ msgid ""
+#~ "In a page or post editor you will see a new button called \"ConcordPay "
+#~ "Button\" located above the text area beside the \"Add Media\" button."
+#~ msgstr ""
+#~ "В редакторе страниц или записей вы увидите новую кнопку под названием "
+#~ "«Кнопка ConcordPay», расположенную над текстовой областью рядом с кнопкой "
+#~ "«Добавить медиаданные»."
+
+#~ msgid "Add a ConcordPay Buy Button to your website. No Coding Required."
+#~ msgstr ""
+#~ "Добавьте кнопку ConcordPay на свой сайт. Программирование не требуется."
