@@ -3,7 +3,7 @@
  * Plugin Name:  ConcordPay Button
  * Plugin URI:   https://concordpay.concord.ua/
  * Description:  This plugin allows you to create a button that lets the customers pay via ConcordPay.
- * Version:      1.1.1
+ * Version:      1.1.2
  * Author:       MustPay
  * Author URI:   https://mustpay.tech
  * Domain Path:  /lang
@@ -190,7 +190,7 @@ class ConcordPay_Button {
 	 *
 	 * @return void
 	 */
-	public function cpb_activate() {
+	public static function cpb_activate() {
 
 		if ( ! current_user_can( 'activate_plugins' ) ) {
 			return;
@@ -215,7 +215,7 @@ class ConcordPay_Button {
 	 *
 	 * @return void
 	 */
-	public function cpb_deactivate() {
+	public static function cpb_deactivate() {
 		if ( ! current_user_can( 'activate_plugins' ) ) {
 			return;
 		}
@@ -229,7 +229,7 @@ class ConcordPay_Button {
 	 *
 	 * @return void
 	 */
-	public function cpb_uninstall() {
+	public static function cpb_uninstall() {
 	}
 
 	/**
