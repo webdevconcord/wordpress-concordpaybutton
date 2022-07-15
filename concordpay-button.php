@@ -3,7 +3,7 @@
  * Plugin Name:  ConcordPay Button
  * Plugin URI:   https://concordpay.concord.ua/
  * Description:  This plugin allows you to create a button that lets the customers pay via ConcordPay.
- * Version:      1.1.2
+ * Version:      1.1.4
  * Author:       MustPay
  * Author URI:   https://mustpay.tech
  * Domain Path:  /lang
@@ -59,25 +59,26 @@ class ConcordPay_Button {
 		'merchant_id',
 		'secret_key',
 		'currency',
-		'order_prefix',
 		'language',
 		'mode',
+		'pay_button_text',
+		'order_prefix',
 	);
 
 	protected $checkout_params = array(
-		self::CPB_MODE_NONE => array(
+		self::CPB_MODE_NONE        => array(
 			'_wpnonce',
 			'cpb_product_name',
 			'cpb_product_price',
 		),
-		self::CPB_MODE_PHONE => array(
+		self::CPB_MODE_PHONE       => array(
 			'_wpnonce',
 			'cpb_client_name',
 			'cpb_phone',
 			'cpb_product_name',
 			'cpb_product_price',
 		),
-		self::CPB_MODE_EMAIL => array(
+		self::CPB_MODE_EMAIL       => array(
 			'_wpnonce',
 			'cpb_client_name',
 			'cpb_email',
@@ -199,12 +200,13 @@ class ConcordPay_Button {
 		check_admin_referer( "activate-plugin_{$plugin}" );
 
 		$cpb_settings = array(
-			'merchant_id'  => '',
-			'secret_key'   => '',
-			'currency'     => 'UAH',
-			'order_prefix' => 'cpb',
-			'language'     => 'uk',
-			'mode'         => self::CPB_MODE_PHONE,
+			'merchant_id'     => '',
+			'secret_key'      => '',
+			'currency'        => 'UAH',
+			'language'        => 'ua',
+			'mode'            => self::CPB_MODE_PHONE,
+			'pay_button_text' => 'Pay',
+			'order_prefix'    => 'cpb',
 		);
 
 		add_option( 'cpb_settings', $cpb_settings );
@@ -319,7 +321,7 @@ class ConcordPay_Button {
 
 		echo '</td><td></td></tr><tr><td>';
 
-		// Form.
+		// Settings form.
 		echo '<br />';
 		?>
 
@@ -377,10 +379,18 @@ class ConcordPay_Button {
 	<div class="cpb-input-group">
 	  <label for="mode" class="cpb-label"><?php _e( 'Required fields', 'concordpay-button' ); ?></label>
 	  <select type="text" name="mode" id="mode" class="cpb-input">
-		  <?php echo $this->cpb_get_select_options( self::cpb_get_required_fields(), $settings['mode'] ); ?>
+		<?php echo $this->cpb_get_select_options( self::cpb_get_required_fields(), $settings['mode'] ); ?>
 	  </select>
 	  <div class="cpb-description" id="mode_description">
-		  <?php _e( 'Fields required to be entered by the buyer', 'concordpay-button' ); ?>
+		<?php _e( 'Fields required to be entered by the buyer', 'concordpay-button' ); ?>
+	  </div>
+	</div>
+	<div class="cpb-input-group">
+	  <label for="pay_button_text" class="cpb-label"><?php _e( 'ConcordPay button text', 'concordpay-button' ); ?></label>
+	  <input type="text" name="pay_button_text" id="pay_button_text" class="cpb-input"
+			 value="<?php echo $settings['pay_button_text']; ?>">
+	  <div class="cpb-description" id="mode_description">
+		  <?php _e( 'Custom ConcordPay button text', 'concordpay-button' ); ?>
 	  </div>
 	</div>
 		<div class="cpb-input-group">
@@ -456,7 +466,7 @@ class ConcordPay_Button {
 		  <div class="cpb-popup-footer">
 			<button type="submit" class="cpb-popup-submit" id="cpb_popup_submit">
 			  <img src="<?php echo plugin_dir_url( __FILE__ ) . 'assets/img/logo.svg'; ?>" alt="ConcordPay">
-			  <span><?php _e( 'Pay Order', 'concordpay-button' ); ?></span>
+			  <span><?php $settings['pay_button_text'] ? esc_html_e( $settings['pay_button_text'] ) : _e( 'Pay Order', 'concordpay-button' ); ?></span>
 			</button>
 		  </div>
 		</form>
@@ -606,7 +616,10 @@ class ConcordPay_Button {
 		foreach ( $request as $key => $value ) {
 			$output .= $this->print_input( $key, $value );
 		}
-		$output .= "<input type='submit' value='" . __( 'Pay', 'concordpay-button' ) . "' alt='Make your payments with ConcordPay'>";
+    $settings = self::cpb_get_settings();
+    $pay_button_text = $settings['pay_button_text'] ?? __( 'Pay', 'concordpay-button' );
+
+		$output .= "<input type='submit' value='$pay_button_text' alt='Make your payments with ConcordPay'>";
 		$output .= '</form>';
 
 		echo $output;
