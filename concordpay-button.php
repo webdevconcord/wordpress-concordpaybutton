@@ -182,7 +182,7 @@ class ConcordPay_Button {
 	 *
 	 * @return void
 	 */
-	public function cpb_add_inline_popup_content() {
+	public static function cpb_add_inline_popup_content() {
 	}
 
 	/**
