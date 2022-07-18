@@ -78,6 +78,10 @@
 	box-shadow: 0 0 3px #336aff;
 }
 
+.cpb-popup-field-hidden {
+	display: none;
+}
+
 /* Message bar with payment result */
 .cpb-result-success,
 .cpb-result-fail,

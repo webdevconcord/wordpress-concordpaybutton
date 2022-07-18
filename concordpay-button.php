@@ -3,7 +3,7 @@
  * Plugin Name:  ConcordPay Button
  * Plugin URI:   https://concordpay.concord.ua/
  * Description:  This plugin allows you to create a button that lets the customers pay via ConcordPay.
- * Version:      1.1.4
+ * Version:      1.2.0
  * Author:       MustPay
  * Author URI:   https://mustpay.tech
  * Domain Path:  /lang
@@ -425,52 +425,59 @@ class ConcordPay_Button {
 		?>
 	<div id="cpb_popup" class="cpb-popup">
 	  <div class="cpb-popup-body">
-	  <div class="cpb-popup-content">
-		<a href="" class="cpb-popup-close" id="cpb-popup-close"><span>×</span></a>
-		<div class="cpb-popup-title"> <?php _e( 'Buyer info', 'concordpay-button' ); ?></div>
-		<form action="" id="cpb_checkout_form" class="cpb-checkout-form">
-		<?php if ( $settings['mode'] !== self::CPB_MODE_NONE ) : ?>
-		<div class="cpb-popup-input-group">
-			<label for="cpb_client_name" class="cpb-popup-label"><?php _e( 'Name', 'concordpay-button' ); ?></label>
-		<input type="text" name="cpb_client_name" id="cpb_client_name" class="cpb-popup-input js-cpb-client-name" value="">
-		<div class="cpb-popup-description" id="cpb_client_name_description">
-			<?php _e( 'Enter your name', 'concordpay-button' ); ?>
-		</div>
-		<div class="js-cpb-error-name"></div>
-		</div>
-	  <?php endif; ?>
-		<?php if ( $settings['mode'] === self::CPB_MODE_PHONE || $settings['mode'] === self::CPB_MODE_PHONE_EMAIL ) : ?>
-	  <div class="cpb-popup-input-group">
-		<label for="cpb_phone" class="cpb-popup-label"><?php _e( 'Phone', 'concordpay-button' ); ?></label>
-		<input type="text" name="cpb_phone" id="cpb_phone" class="cpb-popup-input js-cpb-client-phone" value="">
-		<div class="cpb-popup-description" id="cpb_client_first_name_description">
-			<?php _e( 'Your contact phone', 'concordpay-button' ); ?>
-		</div>
-		<div class="js-cpb-error-phone"></div>
-	  </div>
-	  <?php endif; ?>
-		<?php if ( $settings['mode'] === self::CPB_MODE_EMAIL || $settings['mode'] === self::CPB_MODE_PHONE_EMAIL ) : ?>
-	  <div class="cpb-popup-input-group">
-		<label for="cpb_email" class="cpb-popup-label"><?php _e( 'Email', 'concordpay-button' ); ?></label>
-		<input type="text" name="cpb_email" id="cpb_email" class="cpb-popup-input js-cpb-client-email" value="">
-		<div class="cpb-popup-description" id="cpb_client_email_description">
-			<?php _e( 'Your email', 'concordpay-button' ); ?>
-		</div>
-		<div class="js-cpb-error-email"></div>
-	  </div>
-	  <?php endif; ?>
-	  <input type="hidden" class="js-cpb-product-name" name="cpb_product_name" value="">
-	  <input type="hidden" class="js-cpb-product-price" name="cpb_product_price" value="">
-		  <input type="hidden" name="action" value="popup_handler">
-		  <?php wp_nonce_field( 'popup_handler' ); ?>
-		  <div class="cpb-popup-footer">
-			<button type="submit" class="cpb-popup-submit" id="cpb_popup_submit">
-			  <img src="<?php echo plugin_dir_url( __FILE__ ) . 'assets/img/logo.svg'; ?>" alt="ConcordPay">
-			  <span><?php $settings['pay_button_text'] ? esc_html_e( $settings['pay_button_text'] ) : _e( 'Pay Order', 'concordpay-button' ); ?></span>
-			</button>
-		  </div>
-		</form>
-	  </div>
+      <div class="cpb-popup-content">
+        <a href="" class="cpb-popup-close" id="cpb-popup-close"><span>×</span></a>
+        <div class="cpb-popup-title"> <?php _e( 'Buyer info', 'concordpay-button' ); ?></div>
+        <form action="" id="cpb_checkout_form" class="cpb-checkout-form">
+          <?php if ( $settings['mode'] !== self::CPB_MODE_NONE ) : ?>
+          <div class="cpb-popup-input-group">
+            <label for="cpb_client_name" class="cpb-popup-label"><?php _e( 'Name', 'concordpay-button' ); ?></label>
+            <input type="text" name="cpb_client_name" id="cpb_client_name" class="cpb-popup-input js-cpb-client-name" value="">
+            <div class="cpb-popup-description" id="cpb_client_name_description">
+              <?php _e( 'Enter your name', 'concordpay-button' ); ?>
+            </div>
+            <div class="js-cpb-error-name"></div>
+          </div>
+          <?php endif; ?>
+          <?php if ( $settings['mode'] === self::CPB_MODE_PHONE || $settings['mode'] === self::CPB_MODE_PHONE_EMAIL ) : ?>
+          <div class="cpb-popup-input-group">
+            <label for="cpb_phone" class="cpb-popup-label"><?php _e( 'Phone', 'concordpay-button' ); ?></label>
+            <input type="text" name="cpb_phone" id="cpb_phone" class="cpb-popup-input js-cpb-client-phone" value="">
+            <div class="cpb-popup-description" id="cpb_client_first_name_description">
+              <?php _e( 'Your contact phone', 'concordpay-button' ); ?>
+            </div>
+            <div class="js-cpb-error-phone"></div>
+          </div>
+          <?php endif; ?>
+          <?php if ( $settings['mode'] === self::CPB_MODE_EMAIL || $settings['mode'] === self::CPB_MODE_PHONE_EMAIL ) : ?>
+          <div class="cpb-popup-input-group">
+            <label for="cpb_email" class="cpb-popup-label"><?php _e( 'Email', 'concordpay-button' ); ?></label>
+            <input type="text" name="cpb_email" id="cpb_email" class="cpb-popup-input js-cpb-client-email" value="">
+            <div class="cpb-popup-description" id="cpb_client_email_description">
+              <?php _e( 'Your email', 'concordpay-button' ); ?>
+            </div>
+            <div class="js-cpb-error-email"></div>
+          </div>
+          <?php endif; ?>
+          <div class="cpb-popup-input-group js-cpb-product-price-wrapper cpb-popup-field-hidden">
+            <label for="cpb_product_price" class="cpb-popup-label"><?php _e( 'Amount', 'concordpay-button' ); ?></label>
+            <input type="text" name="cpb_product_price" id="cpb_product_price" class="cpb-popup-input js-cpb-product-price" value="">
+            <div class="cpb-popup-description" id="cpb_product_price_description">
+                <?php _e( 'Enter your prefer amount', 'concordpay-button' ); ?>
+            </div>
+            <div class="js-cpb-error-product-price"></div>
+          </div>
+          <input type="hidden" class="js-cpb-product-name" name="cpb_product_name" value="">
+          <input type="hidden" name="action" value="popup_handler">
+          <?php wp_nonce_field( 'popup_handler' ); ?>
+          <div class="cpb-popup-footer">
+            <button type="submit" class="cpb-popup-submit" id="cpb_popup_submit">
+              <img src="<?php echo plugin_dir_url( __FILE__ ) . 'assets/img/logo.svg'; ?>" alt="ConcordPay">
+              <span><?php $settings['pay_button_text'] ? esc_html_e( $settings['pay_button_text'] ) : _e( 'Pay Order', 'concordpay-button' ); ?></span>
+            </button>
+          </div>
+        </form>
+	    </div>
 	  </div>
 	</div>
 		<?php
@@ -836,12 +843,14 @@ class ConcordPay_Button {
 	 * @return array
 	 */
 	protected function cpb_validate_checkout_form( $post_data ) {
-		$result               = array(
+		$result = array(
 			'result' => false,
 			'errors' => array(),
 		);
+
 		$checkout_params_keys = $this->cpb_get_checkout_params_keys();
-		$isHasAllValues       = ! array_diff_key( $checkout_params_keys, $post_data );
+
+		$isHasAllValues = ! array_diff_key( $checkout_params_keys, $post_data );
 		if ( ! $isHasAllValues && ! isset( $post_data['is_single_field'] ) ) {
 			$result['errors'][] = __( 'Error: Not enough input parameters.', 'concordpay-button' );
 			return $result;
@@ -872,6 +881,14 @@ class ConcordPay_Button {
 				$result['errors']['email'] = __( 'Invalid email', 'concordpay-button' );
 			}
 		}
+
+    // Check amount value.
+    if ( isset( $checkout_params_keys['cpb_product_price'] )) {
+        $amount = trim( $post_data['cpb_product_price'] );
+        if ( !is_numeric($amount) || $amount <= 0) {
+            $result['errors']['product-price'] = __( 'Invalid amount', 'concordpay-button' );
+        }
+    }
 
 		if ( empty( $result['errors'] ) ) {
 			$result['result'] = true;

@@ -15,6 +15,8 @@
 	const clientNameField = document.querySelector('.js-cpb-client-name');
 	const clientPhoneField = document.querySelector('.js-cpb-client-phone');
 	const clientEmailField = document.querySelector('.js-cpb-client-email');
+	const clientAmount = document.querySelector('.js-cpb-product-price');
+	const clientAmountWrapper = document.querySelector('.js-cpb-product-price-wrapper');
 	// Required fields when making a purchase.
 	const requiredFields = [clientNameField, clientPhoneField, clientEmailField];
 
@@ -29,11 +31,15 @@
 			if (typeof cpbPopup !== 'undefined' && cpbPopup && productNameField && productPriceField) {
 				productNameField.value = event.target.dataset.name;
 				productPriceField.value = event.target.dataset.price;
-				if (requiredFields.every(element => element === null)) {
+				if (requiredFields.every(element => element === null) && productPriceField.value.toLowerCase() !== 'custom') {
 					// if 'CPB_MODE_NONE' enabled.
 					cpbCheckoutForm.dispatchEvent(new Event('submit'));
 				} else {
 					// Other modes. Open popup window.
+					if (productPriceField.value.toLowerCase() === 'custom') {
+						productPriceField.value = 0;
+						clientAmountWrapper.classList.remove('cpb-popup-field-hidden');
+					}
 					cpbPopup.classList.add('open');
 				}
 			}
@@ -46,6 +52,9 @@
 		cpbClose.onclick = event => {
 			event.preventDefault();
 			resetFormFields();
+			if (clientAmountWrapper.classList.contains('cpb-popup-field-hidden') !== true) {
+				clientAmountWrapper.classList.add('cpb-popup-field-hidden');
+			}
 			cpbPopup.classList.remove('open');
 			resetValidationMessages();
 		};
@@ -60,6 +69,7 @@
 			}
 		};
 		// Event listeners for separate form fields.
+		requiredFields.push(clientAmount);
 		requiredFields.map(
 			field => {
 				if (typeof field !== 'undefined' && field) {
@@ -67,6 +77,7 @@
 				}
 			}
 		);
+		requiredFields.pop();
 	}
 
 	/**
@@ -78,12 +89,18 @@
 		const fieldId = event.target.id;
 		const fieldValue = event.target.value;
 
-		if (fieldId === 'cpb_client_name') {
-			validateName(fieldValue);
-		} else if (fieldId === 'cpb_phone') {
-			validatePhone(fieldValue);
-		} else if (fieldId === 'cpb_email') {
-			validateEmail(fieldValue);
+		switch (fieldId) {
+			case 'cpb_client_name':
+				validateName(fieldValue);
+				break;
+			case 'cpb_phone':
+				validatePhone(fieldValue);
+				break;
+			case 'cpb_email':
+				validateEmail(fieldValue);
+				break;
+			case 'cpb_product_price':
+				validateAmount(fieldValue);
 		}
 	}
 
@@ -137,6 +154,22 @@
 	}
 
 	/**
+	 * Validate product price (amount) field.
+	 *
+	 * @param value
+	 */
+	function validateAmount(value) {
+		const errorMessage = document.querySelector('.js-cpb-error-product-price');
+		if (value.trim().length !== 0 && !isNaN(value) && !isNaN(parseFloat(value)) && parseFloat(value) > 0) {
+			removeValidationMessage(errorMessage);
+			return;
+		}
+
+		errorMessage.innerHTML = __('Invalid amount', 'concordpay-button');
+		highlightNearestInput(errorMessage);
+	}
+
+	/**
 	 * Checkout form validator.
 	 *
 	 * @param event
@@ -180,7 +213,7 @@
 				}
 			} else {
 				// Fail.
-				console.log('ConcordPay plugin request error');
+				console.log('ConcordPay plugin validate request error');
 			}
 		}
 

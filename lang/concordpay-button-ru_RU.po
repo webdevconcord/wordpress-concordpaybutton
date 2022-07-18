@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2022-02-14 16:39+0200\n"
-"PO-Revision-Date: 2022-06-24 12:54+0300\n"
+"POT-Creation-Date: 2022-07-18 14:36+0300\n"
+"PO-Revision-Date: 2022-07-18 14:36+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -17,16 +17,16 @@ msgstr ""
 "X-Poedit-SearchPath-0: concordpay-button.php\n"
 "X-Poedit-SearchPath-1: assets/js/blocks/cpb.block.js\n"
 
-#: assets/js/blocks/cpb.block.js:12 concordpay-button.php:23
-#: concordpay-button.php:248
+#: assets/js/blocks/cpb.block.js:15 concordpay-button.php:23
+#: concordpay-button.php:243
 msgid "ConcordPay Button"
 msgstr "ConcordPay Button"
 
-#: assets/js/blocks/cpb.block.js:20
+#: assets/js/blocks/cpb.block.js:23
 msgid "Example name"
 msgstr "Пример названия"
 
-#: assets/js/blocks/cpb.block.js:53
+#: assets/js/blocks/cpb.block.js:58
 msgid "Please specify Product name and Price"
 msgstr "Пожалуйста, укажите Название товара и Цену"
 
@@ -38,31 +38,31 @@ msgstr ""
 "Этот плагин позволяет вам создать кнопку, дающую возможность клиентам "
 "оплачивать заказы через ConcordPay."
 
-#: concordpay-button.php:268
+#: concordpay-button.php:263
 msgid "Settings"
 msgstr "Настройки"
 
-#: concordpay-button.php:286
+#: concordpay-button.php:281
 msgid "Support"
 msgstr "Поддержка"
 
-#: concordpay-button.php:298
+#: concordpay-button.php:293
 msgid "You do not have sufficient permissions to access this page."
 msgstr "У вас недостаточно прав для доступа к этой странице."
 
-#: concordpay-button.php:304
+#: concordpay-button.php:299
 msgid "ConcordPay Button Settings"
 msgstr "Настройки кнопки ConcordPay"
 
-#: concordpay-button.php:321
+#: concordpay-button.php:316
 msgid "Settings updated"
 msgstr "Настройки обновлены"
 
-#: concordpay-button.php:333
+#: concordpay-button.php:328
 msgid "Usage"
 msgstr "Использование"
 
-#: concordpay-button.php:336
+#: concordpay-button.php:331
 msgid ""
 "By using this you can create shortcodes which will show up as \"ConcordPay "
 "Button\" on your site."
@@ -70,7 +70,7 @@ msgstr ""
 "Используя её, вы можете создавать шорткоды, которые будут отображаться на "
 "вашем сайте как «Кнопка ConcordPay»."
 
-#: concordpay-button.php:341
+#: concordpay-button.php:336
 msgid ""
 "You can put the \"ConcordPay Button\" as many times in a page or post as you "
 "want, there is no limit. If you want to remove a \"ConcordPay Button\", just "
@@ -80,177 +80,197 @@ msgstr ""
 "записи, сколько хотите, ограничений нет. Если вы хотите удалить «Кнопку "
 "ConcordPay», просто удалите текст шорткода на своей странице или в записи."
 
-#: concordpay-button.php:348
+#: concordpay-button.php:343
 msgid "Account settings"
 msgstr "Настройки аккаунта"
 
-#: concordpay-button.php:351
+#: concordpay-button.php:346
 msgid "Merchant ID"
 msgstr "Идентификатор торговца"
 
-#: concordpay-button.php:355 concordpay-button.php:363
+#: concordpay-button.php:350 concordpay-button.php:358
 msgid "Given to Merchant by ConcordPay"
 msgstr "Предоставляется торговцу системой ConcordPay"
 
-#: concordpay-button.php:359
+#: concordpay-button.php:354
 msgid "Secret key"
 msgstr "Секретный ключ"
 
-#: concordpay-button.php:367
+#: concordpay-button.php:362
 msgid "Currency"
 msgstr "Валюта"
 
-#: concordpay-button.php:372
+#: concordpay-button.php:367
 msgid "Specify your currency"
 msgstr "Укажите свою валюту"
 
-#: concordpay-button.php:376
+#: concordpay-button.php:371
 msgid "Language"
 msgstr "Язык"
 
-#: concordpay-button.php:381
+#: concordpay-button.php:376
 msgid "Specify ConcordPay payment page language"
 msgstr "Укажите язык страницы оплаты ConcordPay"
 
-#: concordpay-button.php:385
+#: concordpay-button.php:380
 msgid "Required fields"
 msgstr "Обязательные поля"
 
-#: concordpay-button.php:390
+#: concordpay-button.php:385
 msgid "Fields required to be entered by the buyer"
 msgstr "Поля, которые должен заполнять покупатель"
 
-#: concordpay-button.php:394
+#: concordpay-button.php:389
+msgid "ConcordPay button text"
+msgstr "Текст в кнопке ConcordPay"
+
+#: concordpay-button.php:393
+msgid "Custom ConcordPay button text"
+msgstr "Пользовательский текст в кнопке ConcordPay"
+
+#: concordpay-button.php:397
 msgid "Order prefix"
 msgstr "Префикс заказа"
 
-#: concordpay-button.php:398
+#: concordpay-button.php:401
 msgid "Prefix for order"
 msgstr "Префикс для обозначения заказа"
 
-#: concordpay-button.php:402
+#: concordpay-button.php:405
 msgid "Save Changes"
 msgstr "Сохранить изменения"
 
-#: concordpay-button.php:427
+#: concordpay-button.php:430
 msgid "Buyer info"
 msgstr "Данные покупателя"
 
-#: concordpay-button.php:431
+#: concordpay-button.php:434
 msgid "Name"
 msgstr "Имя"
 
-#: concordpay-button.php:434
+#: concordpay-button.php:437
 msgid "Enter your name"
 msgstr "Введите ваше имя"
 
-#: concordpay-button.php:441
+#: concordpay-button.php:444
 msgid "Phone"
 msgstr "Телефон"
 
-#: concordpay-button.php:444
+#: concordpay-button.php:447
 msgid "Your contact phone"
 msgstr "Ваш контактный телефон"
 
-#: concordpay-button.php:451
+#: concordpay-button.php:454
 msgid "Email"
 msgstr "Email"
 
-#: concordpay-button.php:454
+#: concordpay-button.php:457
 msgid "Your email"
 msgstr "Ваша эл. почта"
 
+#: concordpay-button.php:463
+msgid "Amount"
+msgstr "Сумма"
+
 #: concordpay-button.php:466
+msgid "Enter your prefer amount"
+msgstr "Введите желаемую сумму"
+
+#: concordpay-button.php:476
 msgid "Pay Order"
 msgstr "Оплатить"
 
-#: concordpay-button.php:484
+#: concordpay-button.php:494
 msgid "Nonce verification failed"
 msgstr "Ошибка проверки одноразового кода"
 
-#: concordpay-button.php:554
+#: concordpay-button.php:566
 msgid "Please enter your ConcordPay Merchant ID on the settings page."
 msgstr "Пожалуйста, укажите свой Идентификатор торговца на странице настроек."
 
-#: concordpay-button.php:583
+#: concordpay-button.php:595
 msgid "Payment by card on the site"
 msgstr "Оплата картой на сайте"
 
-#: concordpay-button.php:614
+#: concordpay-button.php:627
 msgid "Pay"
 msgstr "Оплата"
 
-#: concordpay-button.php:706
+#: concordpay-button.php:721
 msgid "Congratulations! Your payment has been approved"
 msgstr "Поздравляем! Ваш платёж успешен"
 
-#: concordpay-button.php:709
+#: concordpay-button.php:724
 msgid "Sorry, payment failed"
 msgstr "Извините, платеж не прошел"
 
-#: concordpay-button.php:712
+#: concordpay-button.php:727
 msgid "Payment canceled"
 msgstr "Платёж отменён"
 
-#: concordpay-button.php:762
+#: concordpay-button.php:777
 msgid "Ukrainian hryvnia"
 msgstr "Украинская гривна"
 
-#: concordpay-button.php:763
+#: concordpay-button.php:778
 msgid "U.S. Dollar"
 msgstr "Доллар США"
 
-#: concordpay-button.php:764
+#: concordpay-button.php:779
 msgid "Euro"
 msgstr "Евро"
 
-#: concordpay-button.php:775
+#: concordpay-button.php:790
 msgid "UA"
 msgstr "UA"
 
-#: concordpay-button.php:776
+#: concordpay-button.php:791
 msgid "RU"
 msgstr "RU"
 
-#: concordpay-button.php:777
+#: concordpay-button.php:792
 msgid "EN"
 msgstr "EN"
 
-#: concordpay-button.php:788
+#: concordpay-button.php:803
 msgid "Do not require"
 msgstr "Не требовать"
 
-#: concordpay-button.php:789
+#: concordpay-button.php:804
 msgid "Name + Phone"
 msgstr "Имя + Телефон"
 
-#: concordpay-button.php:790
+#: concordpay-button.php:805
 msgid "Name + Email"
 msgstr "Имя + Email"
 
-#: concordpay-button.php:791
+#: concordpay-button.php:806
 msgid "Name + Phone + Email"
 msgstr "Имя + Телефон + Email"
 
-#: concordpay-button.php:838
+#: concordpay-button.php:855
 msgid "Error: Not enough input parameters."
 msgstr "Ошибка: Мало входных данных."
 
-#: concordpay-button.php:844
+#: concordpay-button.php:861
 msgid "Error: Request failed security check"
 msgstr "Ошибка: Запрос не прошёл проверку безопасности"
 
-#: concordpay-button.php:849
+#: concordpay-button.php:866
 msgid "Invalid name"
 msgstr "Неправильное имя"
 
-#: concordpay-button.php:856
+#: concordpay-button.php:873
 msgid "Invalid phone number"
 msgstr "Неправильный телефон"
 
-#: concordpay-button.php:864
+#: concordpay-button.php:881
 msgid "Invalid email"
 msgstr "Неправильная эл. почта"
+
+#: concordpay-button.php:889
+msgid "Invalid amount"
+msgstr "Неправильная сумма"
 
 #~ msgid "Left"
 #~ msgstr "Слева"
