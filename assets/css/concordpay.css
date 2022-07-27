@@ -64,13 +64,85 @@
 
 .cpb-button-image {
 	display: inline-block;
-	width: 160px;
-	height: 40px;
-	border: 2px solid #000;
-	border-radius: 10px;
+	/*width: 160px;*/
+	/*height: 40px;*/
+	/*border: 2px solid #000;*/
+	/*border-radius: 10px;*/
 	cursor: pointer;
-	padding: 4px 8px;
 }
+/* ConcordPay Button styles*/
+.cpb-btn-shape-rect {
+	border-radius: 1px;
+}
+
+.cpb-btn-shape-round {
+	border-radius: 10px;
+}
+
+.cpb-btn-shape-pill {
+	border-radius: 50em;
+}
+
+.cpb-btn-height-small {
+	height: 30px;
+}
+
+.cpb-btn-height-medium {
+	height: 40px;
+}
+
+.cpb-btn-height-large {
+	height: 60px;
+}
+
+.cpb-btn-height-xlarge {
+	height: 80px;
+}
+
+.cpb-btn-color-gold {
+	background-color: #FFC439
+}
+
+.cpb-btn-color-blue {
+	background-color: #0170BA
+}
+
+.cpb-btn-color-silver {
+	background-color: #EEEEEE
+}
+
+.cpb-btn-color-white {
+	background-color: #FFFFFF
+}
+
+.cpb-btn-color-black {
+	background-color: #2C2E2F
+}
+
+.cpb-btn-text-color-white {
+	color: #FFFFFF
+}
+
+.cpb-btn-text-color-black {
+	color: #2C2E2F
+}
+
+.cpb-btn-border-none {
+	border: 0 solid #000;
+	padding: 7px 11px;
+}
+
+.cpb-btn-border-regular {
+	border: 1px solid #000;
+	padding: 6px 10px;
+}
+
+.cpb-btn-border-bold {
+	border: 2px solid #000;
+	padding: 5px 9px;
+}
+
+/* END ConcordPay Button styles*/
 
 .cpb-button-image:hover,
 .cpb-popup-submit:hover {

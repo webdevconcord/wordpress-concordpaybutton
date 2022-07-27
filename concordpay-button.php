@@ -3,7 +3,7 @@
  * Plugin Name:  ConcordPay Button
  * Plugin URI:   https://concordpay.concord.ua/
  * Description:  This plugin allows you to create a button that lets the customers pay via ConcordPay.
- * Version:      1.2.0
+ * Version:      1.3.0
  * Author:       MustPay
  * Author URI:   https://mustpay.tech
  * Domain Path:  /lang
@@ -36,7 +36,7 @@ add_action( 'plugins_loaded', array( 'ConcordPay_Button', 'cpb_init' ), 0 );
  */
 class ConcordPay_Button {
 
-	public const CPB_PLUGIN_VERSION = '1.1.0';
+	public const CPB_PLUGIN_VERSION = '1.3.0';
 
 	public const CPB_MODE_NONE        = 'none';
 	public const CPB_MODE_PHONE       = 'phone';
@@ -63,6 +63,12 @@ class ConcordPay_Button {
 		'mode',
 		'pay_button_text',
 		'order_prefix',
+    'btn_shape',
+    'btn_height',
+    'btn_width',
+    'btn_color',
+    'btn_border',
+    'btn_inverse',
 	);
 
 	protected $checkout_params = array(
@@ -123,6 +129,9 @@ class ConcordPay_Button {
 
 		// Plugin settings page styles.
 		add_action( 'admin_enqueue_scripts', array( $this, 'cpb_link_admin_styles' ), 500 );
+
+    // Plugin settings page scripts.
+    add_action( 'admin_enqueue_scripts', array( $this, 'cpb_link_admin_scripts' ), 500 );
 
 		// Settings page menu link.
 		add_action( 'admin_menu', array( $this, 'cpb_plugin_menu' ) );
@@ -318,6 +327,8 @@ class ConcordPay_Button {
 		}
 
 		$settings = self::cpb_get_settings();
+    // Get button image.
+    $styles = $this->cpb_get_button_styles();
 
 		echo '</td><td></td></tr><tr><td>';
 
@@ -325,83 +336,148 @@ class ConcordPay_Button {
 		echo '<br />';
 		?>
 
-	  <div class="cpb-section-header" id="cpb-section-header"><?php _e( 'Usage', 'concordpay-button' ); ?></div>
-	  <div class="cpb-section">
-		<p>
-		  <?php esc_html_e( 'By using this you can create shortcodes which will show up as "ConcordPay Button" on your site.', 'concordpay-button' ); ?>
-	  </p>
-		<p>
-			<?php
-			esc_html_e(
-				'You can put the "ConcordPay Button" as many times in a page or post as you want, there is no limit. If you want to remove a "ConcordPay Button", just remove the shortcode text in your page or post.',
-				'concordpay-button'
-			);
-			?>
-		</p>
-	  </div>
+      <div class="cpb-section-header" id="cpb-section-header"><?php _e( 'Usage', 'concordpay-button' ); ?></div>
+      <div class="cpb-section">
+        <p>
+          <?php esc_html_e( 'By using this you can create shortcodes which will show up as "ConcordPay Button" on your site.', 'concordpay-button' ); ?>
+        </p>
+        <p>
+          <?php
+          esc_html_e(
+            'You can put the "ConcordPay Button" as many times in a page or post as you want, there is no limit. If you want to remove a "ConcordPay Button", just remove the shortcode text in your page or post.',
+            'concordpay-button'
+          );
+          ?>
+        </p>
+      </div>
 
-	  <div class="cpb-section-header"><?php _e( 'Account settings', 'concordpay-button' ); ?></div>
-	  <div class="cpb-section">
-		<div class="cpb-input-group">
-		  <label for="merchant_id" class="cpb-label"><?php _e( 'Merchant ID', 'concordpay-button' ); ?></label>
-		  <input type="text" name="merchant_id" id="merchant_id" class="cpb-input"
-				 value="<?php echo $settings['merchant_id']; ?>">
-		  <div class="cpb-description" id="merchant_id_description">
-			  <?php _e( 'Given to Merchant by ConcordPay', 'concordpay-button' ); ?>
-		  </div>
-		</div>
-		<div class="cpb-input-group">
-		  <label for="secret_key" class="cpb-label"><?php _e( 'Secret key', 'concordpay-button' ); ?></label>
-		  <input type="text" name="secret_key" id="secret_key" class="cpb-input"
-				 value="<?php echo $settings['secret_key']; ?>">
-		  <div class="cpb-description" id="merchant_id_description">
-			  <?php _e( 'Given to Merchant by ConcordPay', 'concordpay-button' ); ?>
-		  </div>
-		</div>
-		<div class="cpb-input-group">
-		  <label for="currency" class="cpb-label"><?php _e( 'Currency', 'concordpay-button' ); ?></label>
-		  <select type="text" name="currency" id="currency" class="cpb-input">
-			<?php echo $this->cpb_get_select_options( self::cpb_get_currencies(), $settings['currency'] ); ?>
-		  </select>
-		  <div class="cpb-description" id="merchant_id_description">
-			  <?php _e( 'Specify your currency', 'concordpay-button' ); ?>
-		  </div>
-		</div>
-	  <div class="cpb-input-group">
-	  <label for="language" class="cpb-label"><?php _e( 'Language', 'concordpay-button' ); ?></label>
-	  <select type="text" name="language" id="language" class="cpb-input">
-		<?php echo $this->cpb_get_select_options( self::cpb_get_languages(), $settings['language'] ); ?>
-	  </select>
-	  <div class="cpb-description" id="language_description">
-		<?php _e( 'Specify ConcordPay payment page language', 'concordpay-button' ); ?>
-	  </div>
-	  </div>
-	<div class="cpb-input-group">
-	  <label for="mode" class="cpb-label"><?php _e( 'Required fields', 'concordpay-button' ); ?></label>
-	  <select type="text" name="mode" id="mode" class="cpb-input">
-		<?php echo $this->cpb_get_select_options( self::cpb_get_required_fields(), $settings['mode'] ); ?>
-	  </select>
-	  <div class="cpb-description" id="mode_description">
-		<?php _e( 'Fields required to be entered by the buyer', 'concordpay-button' ); ?>
-	  </div>
-	</div>
-	<div class="cpb-input-group">
-	  <label for="pay_button_text" class="cpb-label"><?php _e( 'ConcordPay button text', 'concordpay-button' ); ?></label>
-	  <input type="text" name="pay_button_text" id="pay_button_text" class="cpb-input"
-			 value="<?php echo $settings['pay_button_text']; ?>">
-	  <div class="cpb-description" id="mode_description">
-		  <?php _e( 'Custom ConcordPay button text', 'concordpay-button' ); ?>
-	  </div>
-	</div>
-		<div class="cpb-input-group">
-		  <label for="order_prefix" class="cpb-label"><?php _e( 'Order prefix', 'concordpay-button' ); ?></label>
-		  <input type="text" name="order_prefix" id="order_prefix" class="cpb-input"
-				 value="<?php echo $settings['order_prefix']; ?>">
-		  <div class="cpb-description" id="merchant_id_description">
-			  <?php _e( 'Prefix for order', 'concordpay-button' ); ?>
-		  </div>
-		</div>
-	  </div>
+      <div class="cpb-section-header"><?php _e( 'Account settings', 'concordpay-button' ); ?></div>
+      <div class="cpb-section">
+        <div class="cpb-input-group">
+          <label for="merchant_id" class="cpb-label"><?php _e( 'Merchant ID', 'concordpay-button' ); ?></label>
+          <input type="text" name="merchant_id" id="merchant_id" class="cpb-input"
+             value="<?php echo $settings['merchant_id']; ?>">
+          <div class="cpb-description" id="merchant_id_description">
+            <?php _e( 'Given to Merchant by ConcordPay', 'concordpay-button' ); ?>
+          </div>
+        </div>
+        <div class="cpb-input-group">
+          <label for="secret_key" class="cpb-label"><?php _e( 'Secret key', 'concordpay-button' ); ?></label>
+          <input type="text" name="secret_key" id="secret_key" class="cpb-input"
+             value="<?php echo $settings['secret_key']; ?>">
+          <div class="cpb-description" id="merchant_id_description">
+            <?php _e( 'Given to Merchant by ConcordPay', 'concordpay-button' ); ?>
+          </div>
+        </div>
+        <div class="cpb-input-group">
+          <label for="currency" class="cpb-label"><?php _e( 'Currency', 'concordpay-button' ); ?></label>
+          <select type="text" name="currency" id="currency" class="cpb-input">
+          <?php echo $this->cpb_get_select_options( self::cpb_get_currencies(), $settings['currency'] ); ?>
+          </select>
+          <div class="cpb-description" id="merchant_id_description">
+            <?php _e( 'Specify your currency', 'concordpay-button' ); ?>
+          </div>
+        </div>
+        <div class="cpb-input-group">
+        <label for="language" class="cpb-label"><?php _e( 'Language', 'concordpay-button' ); ?></label>
+        <select type="text" name="language" id="language" class="cpb-input">
+        <?php echo $this->cpb_get_select_options( self::cpb_get_languages(), $settings['language'] ); ?>
+        </select>
+        <div class="cpb-description" id="language_description">
+        <?php _e( 'Specify ConcordPay payment page language', 'concordpay-button' ); ?>
+        </div>
+        </div>
+        <div class="cpb-input-group">
+        <label for="mode" class="cpb-label"><?php _e( 'Required fields', 'concordpay-button' ); ?></label>
+        <select type="text" name="mode" id="mode" class="cpb-input">
+        <?php echo $this->cpb_get_select_options( self::cpb_get_required_fields(), $settings['mode'] ); ?>
+        </select>
+        <div class="cpb-description" id="mode_description">
+        <?php _e( 'Fields required to be entered by the buyer', 'concordpay-button' ); ?>
+        </div>
+      </div>
+        <div class="cpb-input-group">
+        <label for="pay_button_text" class="cpb-label"><?php _e( 'ConcordPay button text', 'concordpay-button' ); ?></label>
+        <input type="text" name="pay_button_text" id="pay_button_text" class="cpb-input"
+           value="<?php echo $settings['pay_button_text']; ?>">
+        <div class="cpb-description" id="mode_description">
+          <?php _e( 'Custom ConcordPay button text', 'concordpay-button' ); ?>
+        </div>
+      </div>
+        <div class="cpb-input-group">
+          <label for="order_prefix" class="cpb-label"><?php _e( 'Order prefix', 'concordpay-button' ); ?></label>
+          <input type="text" name="order_prefix" id="order_prefix" class="cpb-input"
+             value="<?php echo $settings['order_prefix']; ?>">
+          <div class="cpb-description" id="merchant_id_description">
+            <?php _e( 'Prefix for order', 'concordpay-button' ); ?>
+          </div>
+        </div>
+      </div>
+      <!-- ConcordPay button settings -->
+      <div class="cpb-section" id="cpb_section_btn_settings">
+        <h3 class="hndle">
+          <label for="title"><?php _e('ConcordPay button style', 'concordpay-button') ?></label>
+        </h3>
+        <div class="cpb-input-group">
+          <label for="btn_shape" class="cpb-label"><?php _e( 'Button shape', 'concordpay-button' ); ?></label>
+          <select type="text" name="btn_shape" id="btn_shape" class="cpb-input">
+              <?php echo $this->cpb_get_select_options( self::cpb_get_btn_shape_fields(), $settings['btn_shape'] ?? 'round' ); ?>
+          </select>
+          <div class="cpb-description" id="btn_shape_description">
+              <?php _e( 'Select button shape', 'concordpay-button' ); ?>
+          </div>
+        </div>
+        <div class="cpb-input-group">
+          <label for="btn_height" class="cpb-label"><?php _e( 'Button height', 'concordpay-button' ); ?></label>
+          <select type="text" name="btn_height" id="btn_height" class="cpb-input">
+              <?php echo $this->cpb_get_select_options( self::cpb_get_btn_height_fields(), $settings['btn_height'] ?? 'medium'); ?>
+          </select>
+          <div class="cpb-description" id="btn_height_description">
+              <?php _e( 'Select button height', 'concordpay-button' ); ?>
+          </div>
+        </div>
+        <div class="cpb-input-group">
+          <label for="btn_width" class="cpb-label"><?php _e( 'Button width', 'concordpay-button' ); ?></label>
+          <input type="number" placeholder="Auto" id="btn_width" class="cpb-input" name="btn_width"
+                 value="<?php echo $settings['btn_width'] ?? '160'; ?>" size="10" step="1" min="160">
+          <div class="cpb-description" id="btn_width_description">
+              <?php _e( 'Button width in pixels. Minimum width is 160px. Leave it blank for auto width.', 'concordpay-button' ); ?>
+          </div>
+        </div>
+        <div class="cpb-input-group">
+          <label for="btn_color" class="cpb-label"><?php _e( 'Button color', 'concordpay-button' ); ?></label>
+          <select type="text" name="btn_color" id="btn_color" class="cpb-input">
+            <?php echo $this->cpb_get_select_options( self::cpb_get_btn_color_fields(), $settings['btn_color'] ?? 'white' ); ?>
+          </select>
+          <div class="cpb-description" id="btn_color_description">
+              <?php _e( 'Select button color', 'concordpay-button' ); ?>
+          </div>
+        </div>
+        <div class="cpb-input-group">
+          <label for="btn_border" class="cpb-label"><?php _e( 'Button border', 'concordpay-button' ); ?></label>
+          <select type="text" name="btn_border" id="btn_border" class="cpb-input">
+              <?php echo $this->cpb_get_select_options( self::cpb_get_btn_border_fields(), $settings['btn_border'] ?? 'bold'); ?>
+          </select>
+          <div class="cpb-description" id="btn_border_description">
+              <?php _e( 'Select button border', 'concordpay-button' ); ?>
+          </div>
+        </div>
+        <div class="cpb-input-group">
+          <label for="btn_inverse" class="cpb-label"><?php _e( 'Image type', 'concordpay-button' ); ?></label>
+          <select type="text" name="btn_inverse" id="btn_inverse" class="cpb-input">
+              <?php echo $this->cpb_get_select_options( self::cpb_get_btn_inverse_fields(), $settings['btn_inverse'] ?? 'normal'); ?>
+          </select>
+          <div class="cpb-description" id="btn_inverse_description">
+              <?php _e( 'Select button image type', 'concordpay-button' ); ?>
+          </div>
+        </div>
+        <div class="cpb-input-group">
+          <label for="btn_preview" class="cpb-label"><?php _e( 'Button preview', 'concordpay-button' ); ?></label>
+          <a href="" onclick="return false;" id="btn_preview" <?php echo $styles; ?>>
+          </a>
+        </div>
+      </div>
+      <!-- /ConcordPay button settings -->
 		<?php submit_button( __( 'Save Changes' ), 'primary', 'Save' ); ?>
 	  <input type='hidden' name='update'>
 		<?php wp_nonce_field( 'cpb_form_post' ); ?>
@@ -526,11 +602,11 @@ class ConcordPay_Button {
 			$atts
 		);
 
-		$img       = plugin_dir_url( __FILE__ ) . 'assets/img/concordpay.svg';
+		$styles    = $this->cpb_get_button_styles();
 		$atr_name  = $atts['name'];
 		$atr_price = $atts['price'];
 		$output    = '<div>';
-		$output   .= "<a href='' class='cpb-button-image' data-type='cpb_submit' data-name='{$atr_name}' data-price='{$atr_price}' style='background:url({$img}) no-repeat center center content-box;'></a>";
+		$output   .= "<a href='' $styles data-type='cpb_submit' data-name='{$atr_name}' data-price='{$atr_price}'></a>";
 		$output   .= '</div>';
 
 		return $output;
@@ -639,6 +715,15 @@ class ConcordPay_Button {
 	public function cpb_link_admin_styles() {
 		wp_enqueue_style( 'cpb-admin-styles', plugin_dir_url( __FILE__ ) . 'assets/css/concordpay.css', array(), self::CPB_PLUGIN_VERSION );
 	}
+
+  /**
+   * Link admin scripts.
+   *
+   * @return void
+   */
+  public function cpb_link_admin_scripts() {
+      wp_enqueue_script( 'cpb-admin-scripts', plugin_dir_url( __FILE__ ) . 'assets/js/concordpay-admin.js', array(), self::CPB_PLUGIN_VERSION, true );
+  }
 
 	/**
 	 * Link front scripts and styles.
@@ -807,6 +892,93 @@ class ConcordPay_Button {
 		);
 	}
 
+  /**
+   * ConcordPay Button shape values.
+   *
+   * @return array
+   */
+  protected static function cpb_get_btn_shape_fields() {
+    return array(
+        'rect'  => __( 'Rectangular', 'concordpay-button' ),
+        'round' => __( 'Rounded', 'concordpay-button' ),
+        'pill'  => __( 'Pill', 'concordpay-button' ),
+    );
+  }
+
+   /**
+    * ConcordPay Button height values.
+    *
+    * @return array
+    */
+  protected static function cpb_get_btn_height_fields() {
+    return array(
+      'small'  => __( 'Small', 'concordpay-button' ),
+      'medium' => __( 'Medium', 'concordpay-button' ),
+      'large'  => __( 'Large', 'concordpay-button' ),
+      'xlarge' => __( 'Extra large', 'concordpay-button' ),
+    );
+  }
+
+    /**
+     * ConcordPay Button color values.
+     *
+     * @return array
+     */
+    protected static function cpb_get_btn_color_fields() {
+        return array(
+          'gold'   => array(
+              'label' => __( 'Gold', 'concordpay-button' ),
+              'class' => 'cpb-btn-color-gold',
+              'code'  => '#FFC439'
+          ),
+          'blue'   => array(
+              'label' => __( 'Blue', 'concordpay-button' ),
+              'class' => 'cpb-btn-color-blue cpb-btn-text-color-white',
+              'code'  => '#0170BA'
+          ),
+          'silver' => array(
+              'label' => __( 'Silver', 'concordpay-button' ),
+              'class' => 'cpb-btn-color-silver',
+              'code'  => '#EEEEEE'
+          ),
+          'white'  => array(
+              'label' => __( 'White', 'concordpay-button' ),
+              'class' => 'cpb-btn-color-white',
+              'code'  => '#FFFFFF'
+          ),
+          'black'  => array(
+              'label' => __( 'Black', 'concordpay-button' ),
+              'class' => 'cpb-btn-color-black cpb-btn-text-color-white',
+              'code'  => '#2C2E2F'
+          ),
+        );
+    }
+
+    /**
+     * ConcordPay Button border values.
+     *
+     * @return array
+     */
+    protected static function cpb_get_btn_border_fields() {
+        return array(
+          'none'    => __( 'None', 'concordpay-button' ),
+          'regular' => __( 'Regular', 'concordpay-button' ),
+          'bold'    => __( 'Bold', 'concordpay-button' ),
+        );
+    }
+
+    /**
+     * ConcordPay Button image type values.
+     *
+     * @return array
+     */
+    protected static function cpb_get_btn_inverse_fields() {
+        return array(
+            'normal' => __( 'Normal', 'concordpay-button' ),
+            'inverse' => __( 'Inverse', 'concordpay-button' ),
+        );
+    }
+
 	/**
 	 * Returns list of select options.
 	 *
@@ -818,7 +990,11 @@ class ConcordPay_Button {
 	protected function cpb_get_select_options( $data, $selected ) {
 		$options = '';
 		foreach ( $data as $key => $value ) {
-			$options .= "<option value='{$key}'" . ' ' . ( $key === $selected ? "selected='selected'" : '' ) . ">{$value}</option>";
+      if (is_array($value)) {
+          $options .= "<option class='{$value["class"]}' value='{$key}'" . ' ' . ( $key === $selected ? "selected='selected'" : '' ) . ">{$value['label']}</option>";
+      } else {
+          $options .= "<option value='{$key}'" . ' ' . ( $key === $selected ? "selected='selected'" : '' ) . ">{$value}</option>";
+      }
 		}
 
 		return $options;
@@ -935,4 +1111,31 @@ class ConcordPay_Button {
 
 		return array_flip( $params );
 	}
+
+  /**
+   * Returns ConcordPay Button styles and classes.
+   *
+   * @return string
+   */
+  protected function cpb_get_button_styles() {
+    $styles = '';
+    $settings = self::cpb_get_settings();
+    $img = ($settings['btn_inverse'] === 'inverse') ?
+          plugin_dir_url( __FILE__ ) . 'assets/img/concordpay-inverse.svg':
+          plugin_dir_url( __FILE__ ) . 'assets/img/concordpay.svg';
+
+    $btn_shape = $settings['btn_shape'] ? 'cpb-btn-shape-' . $settings['btn_shape'] : 'cpb-btn-shape-round';
+    $btn_height = $settings['btn_height'] ? 'cpb-btn-height-' . $settings['btn_height'] : 'cpb-btn-height-medium';
+    $btn_width = $settings['btn_width'] ? $settings['btn_width'] . 'px' : '160px';
+    $all_btn_colors = self::cpb_get_btn_color_fields();
+    $btn_color = ($settings['btn_color'] && isset($all_btn_colors[$settings['btn_color']]))
+      ? $all_btn_colors[$settings['btn_color']]['code']
+      : '#FFFFFF';
+    $btn_border = $settings['btn_border'] ? 'cpb-btn-border-' . $settings['btn_border'] : 'cpb-btn-border-bold';
+
+    $styles .= "class='cpb-button-image $btn_shape $btn_height $btn_color $btn_border'
+     style='background:url($img) $btn_color no-repeat center center content-box border-box; width: $btn_width'";
+
+    return $styles;
+  }
 }
