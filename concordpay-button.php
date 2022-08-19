@@ -3,7 +3,7 @@
  * Plugin Name:  ConcordPay Button
  * Plugin URI:   https://concordpay.concord.ua/
  * Description:  This plugin allows you to create a button that lets the customers pay via ConcordPay.
- * Version:      1.4.0
+ * Version:      1.4.1
  * Author:       MustPay
  * Author URI:   https://mustpay.tech
  * Domain Path:  /lang
@@ -534,7 +534,7 @@ class ConcordPay_Button {
 	  <div class="cpb-popup-body">
       <div class="cpb-popup-content">
         <a href="" class="cpb-popup-close" id="cpb-popup-close"><span>×</span></a>
-        <div class="cpb-popup-title"> <?php _e( 'Buyer info', 'concordpay-button' ); ?></div>
+        <div class="cpb-popup-title"> <?php _e( 'User info', 'concordpay-button' ); ?></div>
         <form action="" id="cpb_checkout_form" class="cpb-checkout-form">
           <?php if ( $settings['mode'] !== self::CPB_MODE_NONE ) : ?>
           <div class="cpb-popup-input-group">

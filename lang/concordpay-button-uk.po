@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2022-08-19 11:59+0300\n"
-"PO-Revision-Date: 2022-08-19 12:04+0300\n"
+"POT-Creation-Date: 2022-08-19 16:45+0300\n"
+"PO-Revision-Date: 2022-08-19 16:55+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: uk\n"
@@ -218,8 +218,8 @@ msgid "Save Changes"
 msgstr "Зберегти зміни"
 
 #: concordpay-button.php:537
-msgid "Buyer info"
-msgstr "Дані покупця"
+msgid "User info"
+msgstr "Дані користувача"
 
 #: concordpay-button.php:541
 msgid "Name"
@@ -243,7 +243,7 @@ msgstr "Email"
 
 #: concordpay-button.php:564
 msgid "Your email"
-msgstr "Ваша ел. пошта"
+msgstr "Ваша email адреса"
 
 #: concordpay-button.php:570
 msgid "Amount"
@@ -417,7 +417,7 @@ msgstr "Неправильний телефон"
 
 #: concordpay-button.php:1176
 msgid "Invalid email"
-msgstr "Неправильна ел. пошта"
+msgstr "Неправильна email адреса"
 
 #: concordpay-button.php:1184
 msgid "Invalid amount"

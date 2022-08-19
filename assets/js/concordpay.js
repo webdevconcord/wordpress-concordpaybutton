@@ -15,7 +15,7 @@
 	const clientNameField = document.querySelector('.js-cpb-client-name');
 	const clientPhoneField = document.querySelector('.js-cpb-client-phone');
 	const clientEmailField = document.querySelector('.js-cpb-client-email');
-	const clientAmount = document.querySelector('.js-cpb-product-price');
+	const clientAmountField = document.querySelector('.js-cpb-product-price');
 	const clientAmountWrapper = document.querySelector('.js-cpb-product-price-wrapper');
 	// Required fields when making a purchase.
 	const requiredFields = [clientNameField, clientPhoneField, clientEmailField];
@@ -69,7 +69,7 @@
 			}
 		};
 		// Event listeners for separate form fields.
-		requiredFields.push(clientAmount);
+		requiredFields.push(clientAmountField);
 		requiredFields.map(
 			field => {
 				if (typeof field !== 'undefined' && field) {
@@ -280,7 +280,7 @@
 	 * @param elem
 	 */
 	function highlightNearestInput(elem) {
-		let input = elem.parentNode.querySelector('.cpb-popup-input');
+		let input = elem.closest('.cpb-popup-input-group').querySelector('.cpb-popup-input');
 		input.classList.add('cpb-not-valid');
 	}
 
@@ -290,7 +290,7 @@
 	 * @param elem
 	 */
 	function offHighlightNearestInput(elem) {
-		let input = elem.parentNode.querySelector('.cpb-popup-input');
+		let input = elem.closest('.cpb-popup-input-group').querySelector('.cpb-popup-input');
 		input.classList.remove('cpb-not-valid');
 	}
 
