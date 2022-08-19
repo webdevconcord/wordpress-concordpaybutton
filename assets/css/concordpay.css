@@ -48,6 +48,21 @@
 	width: 40%;
 }
 
+.cpb-checkbox-group {
+	display: flex;
+	flex-direction: column;
+	width: 40%;
+}
+
+.cpb-checkbox-label {
+	font-size: 14px;
+	margin-bottom: 8px;
+}
+
+.cpb-checkbox-label:last-child {
+	margin-bottom: 0;
+}
+
 .cpb-description {
 	margin-left: 15px;
 }
@@ -63,13 +78,13 @@
 }
 
 .cpb-button-image {
-	display: inline-block;
-	/*width: 160px;*/
-	/*height: 40px;*/
-	/*border: 2px solid #000;*/
-	/*border-radius: 10px;*/
+	display: inline-flex;
 	cursor: pointer;
+	text-decoration: none;
+	justify-content: center;
+	align-items: center;
 }
+
 /* ConcordPay Button styles*/
 .cpb-btn-shape-rect {
 	border-radius: 1px;
@@ -320,6 +335,19 @@ input[type="checkbox"].cpb-ui-toggle:checked:after {
 	width: 100%;
 	font-size: 1em;
 	padding: 0.4em;
+}
+
+.cpb-form-row {
+	display: flex;
+	justify-content: space-between;
+}
+
+.cpb-form-row .cpb-popup-input {
+	width: 68%;
+}
+
+.cpb-form-row .cpb-popup-select {
+	width: 30%;
 }
 
 .cpb-popup-description {

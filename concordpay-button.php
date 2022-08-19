@@ -3,7 +3,7 @@
  * Plugin Name:  ConcordPay Button
  * Plugin URI:   https://concordpay.concord.ua/
  * Description:  This plugin allows you to create a button that lets the customers pay via ConcordPay.
- * Version:      1.3.0
+ * Version:      1.4.0
  * Author:       MustPay
  * Author URI:   https://mustpay.tech
  * Domain Path:  /lang
@@ -59,6 +59,7 @@ class ConcordPay_Button {
 		'merchant_id',
 		'secret_key',
 		'currency',
+    'currency_popup',
 		'language',
 		'mode',
 		'pay_button_text',
@@ -76,6 +77,7 @@ class ConcordPay_Button {
 			'_wpnonce',
 			'cpb_product_name',
 			'cpb_product_price',
+			'cpb_product_currency',
 		),
 		self::CPB_MODE_PHONE       => array(
 			'_wpnonce',
@@ -83,6 +85,7 @@ class ConcordPay_Button {
 			'cpb_phone',
 			'cpb_product_name',
 			'cpb_product_price',
+      'cpb_product_currency',
 		),
 		self::CPB_MODE_EMAIL       => array(
 			'_wpnonce',
@@ -90,6 +93,7 @@ class ConcordPay_Button {
 			'cpb_email',
 			'cpb_product_name',
 			'cpb_product_price',
+      'cpb_product_currency',
 		),
 		self::CPB_MODE_PHONE_EMAIL => array(
 			'_wpnonce',
@@ -98,6 +102,7 @@ class ConcordPay_Button {
 			'cpb_email',
 			'cpb_product_name',
 			'cpb_product_price',
+      'cpb_product_currency',
 		),
 	);
 
@@ -212,6 +217,7 @@ class ConcordPay_Button {
 			'merchant_id'     => '',
 			'secret_key'      => '',
 			'currency'        => 'UAH',
+      'currency_popup'  => ['UAH' => 'on'],
 			'language'        => 'ua',
 			'mode'            => self::CPB_MODE_PHONE,
 			'pay_button_text' => 'Pay',
@@ -319,16 +325,23 @@ class ConcordPay_Button {
 		// Save and update options.
 		if ( isset( $_POST['update'] ) ) {
 
-			$this->cpb_update_options();
-
-			echo "<br /><div class='updated'>";
-			echo '<p><strong>' . esc_attr__( 'Settings updated', 'concordpay-button' ) . '</strong></p>';
-			echo '</div>';
+			$result = $this->cpb_update_options();
+      if ($result === true) {
+          echo "<br /><div class='updated'>";
+          echo '<p><strong>' . esc_attr__( 'Settings updated', 'concordpay-button' ) . '</strong></p>';
+          echo '</div>';
+      }
 		}
 
 		$settings = self::cpb_get_settings();
     // Get button image.
     $styles = $this->cpb_get_button_styles();
+    $attributes = array(
+        'label' => __('Donate', 'concordpay-button'),
+        'label_color' => 'Orange',
+        'label_fontsize' => '18px'
+    );
+    $styles_text = $this->cpb_get_button_styles( $attributes );
 
 		echo '</td><td></td></tr><tr><td>';
 
@@ -370,12 +383,27 @@ class ConcordPay_Button {
           </div>
         </div>
         <div class="cpb-input-group">
-          <label for="currency" class="cpb-label"><?php _e( 'Currency', 'concordpay-button' ); ?></label>
+          <label for="currency" class="cpb-label"><?php _e( 'Default currency', 'concordpay-button' ); ?></label>
           <select type="text" name="currency" id="currency" class="cpb-input">
           <?php echo $this->cpb_get_select_options( self::cpb_get_currencies(), $settings['currency'] ); ?>
           </select>
           <div class="cpb-description" id="merchant_id_description">
-            <?php _e( 'Specify your currency', 'concordpay-button' ); ?>
+            <?php _e( 'Specify your default currency', 'concordpay-button' ); ?>
+          </div>
+        </div>
+        <div class="cpb-input-group">
+          <label for="currency_popup" class="cpb-label"><?php _e( 'Currencies for popup window', 'concordpay-button' ); ?></label>
+            <div class="cpb-checkbox-group">
+                <?php foreach (self::cpb_get_currencies() as $key => $currency) :?>
+                <label for="currency_popup[<?php echo $key ?>]" class="cpb-checkbox-label">
+                  <input type="checkbox" name="currency_popup[<?php echo $key ?>]"
+                         id="currency_popup[<?php echo $key ?>]" class="cpb-input" <?php echo $settings['currency_popup'][$key] ? 'checked' : '' ?>>
+                    <?php echo $currency['label'] ?>
+                </label>
+              <?php endforeach; ?>
+            </div>
+          <div class="cpb-description" id="currency_popup_description">
+              <?php _e( 'Currencies available at the time of entering the amount', 'concordpay-button' ); ?>
           </div>
         </div>
         <div class="cpb-input-group">
@@ -473,8 +501,11 @@ class ConcordPay_Button {
         </div>
         <div class="cpb-input-group">
           <label for="btn_preview" class="cpb-label"><?php _e( 'Button preview', 'concordpay-button' ); ?></label>
-          <a href="" onclick="return false;" id="btn_preview" <?php echo $styles; ?>>
-          </a>
+          <a href="" onclick="return false;" id="btn_preview" <?php echo $styles; ?>></a>
+        </div>
+        <div class="cpb-input-group">
+          <label for="btn_preview_text" class="cpb-label"><?php _e( 'Button with additional attributes', 'concordpay-button' ); ?></label>
+          <a href="" onclick="return false;" id="btn_preview_text" <?php echo $styles_text; ?>><?php echo $attributes['label']?></a>
         </div>
       </div>
       <!-- /ConcordPay button settings -->
@@ -537,7 +568,12 @@ class ConcordPay_Button {
           <?php endif; ?>
           <div class="cpb-popup-input-group js-cpb-product-price-wrapper cpb-popup-field-hidden">
             <label for="cpb_product_price" class="cpb-popup-label"><?php _e( 'Amount', 'concordpay-button' ); ?></label>
-            <input type="text" name="cpb_product_price" id="cpb_product_price" class="cpb-popup-input js-cpb-product-price" value="">
+            <div class="cpb-form-row">
+              <input type="text" name="cpb_product_price" id="cpb_product_price" class="cpb-popup-input cpb-product-price js-cpb-product-price" value="">
+              <select type="text" name="cpb_product_currency" id="cpb_product_currency" class="cpb-popup-input cpb-popup-select">
+                  <?php echo $this->cpb_get_select_options_popup( self::cpb_get_currencies_popup(), $settings['currency'] ); ?>
+              </select>
+            </div>
             <div class="cpb-popup-description" id="cpb_product_price_description">
                 <?php _e( 'Enter your prefer amount', 'concordpay-button' ); ?>
             </div>
@@ -562,7 +598,7 @@ class ConcordPay_Button {
 	/**
 	 * Update plugin options.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public function cpb_update_options() {
 		// Check nonce for security.
@@ -574,12 +610,30 @@ class ConcordPay_Button {
 		$settings = array();
 
 		foreach ( $this->fillable as $field ) {
-			if ( isset( $_POST[ $field ] ) && ! empty( trim( $_POST[ $field ] ) ) ) {
+      if ( isset( $_POST[ $field ] ) && is_array( $_POST[ $field ] ) ) {
+          $settings[ $field ] = array();
+        foreach ( $_POST[ $field ] as $subkey => $subfield ) {
+          $settings[ $field ][ $subkey ] = trim( sanitize_text_field( wp_unslash( $subfield ) ) );
+        }
+      } else if ( isset( $_POST[ $field ] ) && ! empty( trim( $_POST[ $field ] ) ) ) {
 				$settings[ $field ] = trim( sanitize_text_field( wp_unslash( $_POST[ $field ] ) ) );
 			}
 		}
 
+    if ( is_array( $settings['currency_popup'] ) !== true
+        || count( $settings['currency_popup'] ) === 0
+        || array_key_exists( $settings['currency'], $settings['currency_popup'] ) !== true
+    ) {
+        $message = __( 'The default currency should be available in the popup', 'concordpay-button' );
+        add_action( 'admin_notices', array( $this, 'cpb_admin_notice__error' ) );
+        do_action('admin_notices', $message );
+
+        return false;
+    }
+
 		update_option( 'cpb_settings', $settings );
+
+    return true;
 	}
 
 	/**
@@ -589,25 +643,45 @@ class ConcordPay_Button {
 	 *
 	 * @return string
 	 */
-	public function cpb_make_button_from_shortcode( $atts ) {
+	public function cpb_make_button_from_shortcode( $attributes ) {
 
 		// Get shortcode user fields.
-		$atts = shortcode_atts(
+    $attributes = shortcode_atts(
 			array(
 				'name'  => 'Example Name',
 				'price' => '0.00',
 				'size'  => '',
 				'align' => '',
+        'label' => '',
+        'label_color' => '',
+        'label_fontsize' => '',
 			),
-			$atts
+        $attributes
 		);
 
-		$styles    = $this->cpb_get_button_styles();
-		$atr_name  = $atts['name'];
-		$atr_price = $atts['price'];
-		$output    = '<div>';
-		$output   .= "<a href='' $styles data-type='cpb_submit' data-name='{$atr_name}' data-price='{$atr_price}'></a>";
-		$output   .= '</div>';
+    // Sanitize attributes.
+    $atts = [];
+    foreach ($attributes as $key => $attribute) {
+        $atts[$key] = trim( sanitize_text_field( wp_unslash( $attribute ) ) );
+    }
+
+    $atr_name  = $atts['name'];
+    $atr_price = $atts['price'];
+    // Additional attributes.
+    $atr_label          = $atts['label'];
+    $atr_label_color    = $atts['label_color'];
+    $atr_label_fontsize = $atts['label_fontsize'];
+
+		$styles = $this->cpb_get_button_styles( [
+        'label' => $atr_label,
+        'label_color' => $atr_label_color,
+        'label_fontsize' => $atr_label_fontsize
+    ] );
+
+		$output = '<div>';
+		$output .= "<a href='' $styles data-type='cpb_submit' data-name='{$atr_name}' data-price='{$atr_price}'>";
+    $output .= ($atr_label !== '') ? "{$atr_label}</a>" : "</a>";
+		$output .= '</div>';
 
 		return $output;
 	}
@@ -650,6 +724,12 @@ class ConcordPay_Button {
 
 		$amount = sanitize_text_field( wp_unslash( $_POST['cpb_product_price'] ) );
 
+    if ( isset( $_POST['cpb_product_currency'] ) ) {
+      $currency = sanitize_text_field( wp_unslash( $_POST['cpb_product_currency'] ) );
+    } else {
+      $currency = $settings['currency'];
+    }
+
 		$product_name = sanitize_text_field( wp_unslash( $_POST['cpb_product_name'] ) );
 
 		$cpb_base_url = home_url( $wp->request );
@@ -677,7 +757,7 @@ class ConcordPay_Button {
 			'merchant_id'       => $settings['merchant_id'],
 			'amount'            => $amount,
 			'order_id'          => $order_id,
-			'currency_iso'      => $settings['currency'],
+			'currency_iso'      => $currency,
 			'description'       => $description,
 			'add_params'        => array( 'product_name' => $product_name ),
 			'approve_url'       => $approve_url,
@@ -859,11 +939,31 @@ class ConcordPay_Button {
 	 */
 	protected static function cpb_get_currencies() {
 		return array(
-			'UAH' => __( 'Ukrainian hryvnia', 'concordpay-button' ),
-			'USD' => __( 'U.S. Dollar', 'concordpay-button' ),
-			'EUR' => __( 'Euro', 'concordpay-button' ),
+			'UAH' => array(
+          'label' => __( 'Ukrainian hryvnia', 'concordpay-button' ),
+          'alias' => 'ГРН'
+      ),
+			'USD' => array(
+          'label' => __( 'U.S. Dollar', 'concordpay-button' ),
+          'alias' => 'USD'
+      ),
+			'EUR' => array(
+          'label' => __( 'Euro', 'concordpay-button' ),
+          'alias' => 'EUR'
+      ),
 		);
 	}
+
+  /**
+   * Returns currencies allowed in popup window.
+   *
+   * @return array|array[]
+   */
+  protected static function cpb_get_currencies_popup() {
+    $settings = self::cpb_get_settings();
+
+    return array_intersect_key( self::cpb_get_currencies(), $settings['currency_popup'] );
+  }
 
 	/**
 	 * List of allowed payment page languages.
@@ -1000,6 +1100,25 @@ class ConcordPay_Button {
 		return $options;
 	}
 
+    /**
+     * Returns list of select options.
+     *
+     * @param array  $data     Input options array.
+     * @param string $selected Current selected value.
+     *
+     * @return string
+     */
+    protected function cpb_get_select_options_popup( $data, $selected ) {
+        $options = '';
+        foreach ( $data as $key => $value ) {
+            if (is_array($value)) {
+                $options .= "<option class='{$value["class"]}' value='{$key}'" . ' ' . ( $key === $selected ? "selected='selected'" : '' ) . ">{$value['alias']}</option>";
+            }
+        }
+
+        return $options;
+    }
+
 	/**
 	 * Translate block in Gutenberg Editor.
 	 *
@@ -1061,8 +1180,16 @@ class ConcordPay_Button {
     // Check amount value.
     if ( isset( $checkout_params_keys['cpb_product_price'] )) {
         $amount = trim( $post_data['cpb_product_price'] );
-        if ( !is_numeric($amount) || $amount <= 0) {
+        if ( !is_numeric($amount) || $amount <= 0 ) {
             $result['errors']['product-price'] = __( 'Invalid amount', 'concordpay-button' );
+        }
+    }
+
+    // Check currency.
+    if ( isset( $checkout_params_keys['cpb_product_currency'] )) {
+        $currency = trim( $post_data['cpb_product_currency'] );
+        if ( !array_key_exists( $currency, self::cpb_get_currencies_popup() ) ) {
+            $result['errors']['product-price'] = __( 'Invalid currency', 'concordpay-button' );
         }
     }
 
@@ -1114,10 +1241,11 @@ class ConcordPay_Button {
 
   /**
    * Returns ConcordPay Button styles and classes.
+   * @param array $attributes
    *
    * @return string
    */
-  protected function cpb_get_button_styles() {
+  protected function cpb_get_button_styles( array $attributes = [] ) {
     $styles = '';
     $settings = self::cpb_get_settings();
     $img = ($settings['btn_inverse'] === 'inverse') ?
@@ -1133,9 +1261,35 @@ class ConcordPay_Button {
       : '#FFFFFF';
     $btn_border = $settings['btn_border'] ? 'cpb-btn-border-' . $settings['btn_border'] : 'cpb-btn-border-bold';
 
-    $styles .= "class='cpb-button-image $btn_shape $btn_height $btn_color $btn_border'
-     style='background:url($img) $btn_color no-repeat center center content-box border-box; width: $btn_width'";
+    if ( isset( $attributes['label'] ) && $attributes['label'] !== '' ) {
+        $styles .= "class='cpb-button-image $btn_shape $btn_height $btn_color $btn_border'
+     style='background: $btn_color no-repeat center center content-box border-box; width: $btn_width; ";
+    } else {
+        $styles .= "class='cpb-button-image $btn_shape $btn_height $btn_color $btn_border'
+     style='background:url($img) $btn_color no-repeat center center content-box border-box; width: $btn_width";
+    }
+
+    if ( isset( $attributes['label_color'] ) && $attributes['label_color'] !== '' ) {
+      $styles .= "color: " . $attributes['label_color'] . "; ";
+    }
+
+    if ( isset( $attributes['label_fontsize'] ) && $attributes['label_fontsize'] !== '' ) {
+      $styles .= "font-size: " . $attributes['label_fontsize'] . ";";
+    }
+
+    $styles .= "'";
 
     return $styles;
   }
+
+    /**
+     * Shows admin error message.
+     *
+     * @param $message
+     * @return void
+     */
+    public function cpb_admin_notice__error( $message ) {
+        $class = 'notice notice-error';
+        printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) );
+    }
 }

@@ -1,5 +1,7 @@
 const cpbSectionBtnSettings = document.querySelector('#cpb_section_btn_settings');
 const cpbButtonPreview = document.querySelector('#btn_preview');
+const cpbButtonPreview_text = document.querySelector('#btn_preview_text');
+const cpbPreview = [cpbButtonPreview, cpbButtonPreview_text];
 const cpbButtonSettings = ['btn_shape', 'btn_height', 'btn_width', 'btn_color', 'btn_border', 'btn_inverse'];
 if (typeof cpbSectionBtnSettings != 'undefined' && cpbSectionBtnSettings) {
   cpbSectionBtnSettings.addEventListener('change', function(e) {
@@ -10,14 +12,14 @@ if (typeof cpbSectionBtnSettings != 'undefined' && cpbSectionBtnSettings) {
       switch (el.id) {
         case 'btn_shape':
           newClass = `cpb-btn-shape-${newValue}`;
-          cpbButtonPreview.className = cpbButtonPreview.className.replace(/cpb-btn-shape[^\s]+/g, newClass);
+          cpbPreview.map(button => button.className = button.className.replace(/cpb-btn-shape[^\s]+/g, newClass));
           break;
         case 'btn_height':
           newClass = `cpb-btn-height-${newValue}`;
-          cpbButtonPreview.className = cpbButtonPreview.className.replace(/cpb-btn-height[^\s]+/g, newClass);
+          cpbPreview.map(button => button.className = button.className.replace(/cpb-btn-height[^\s]+/g, newClass));
           break;
         case 'btn_width':
-          cpbButtonPreview.style.width = `${newValue}px`;
+          cpbPreview.map(button => button.style.width = `${newValue}px`);
           break;
         case 'btn_color':
           let color = '#FFFFFF';
@@ -32,14 +34,14 @@ if (typeof cpbSectionBtnSettings != 'undefined' && cpbSectionBtnSettings) {
           } else if (el.value === 'black') {
             color = '#2C2E2F';
           }
-          cpbButtonPreview.style.backgroundColor = color;
+          cpbPreview.map(button => button.style.backgroundColor = color);
           break;
         case 'btn_border':
           newClass = `cpb-btn-border-${newValue}`;
-          cpbButtonPreview.className = cpbButtonPreview.className.replace(/cpb-btn-border[^\s]+/g, newClass);
+          cpbPreview.map(button => button.className = button.className.replace(/cpb-btn-border[^\s]+/g, newClass));
           break;
         case 'btn_inverse':
-          toggleBtnImage(el.value, cpbButtonPreview);
+          cpbPreview.map(button => toggleBtnImage(el.value, button));
           break;
       }
     }
